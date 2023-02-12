@@ -116,7 +116,8 @@ func outputImage(s []string) {
 		dc.DrawString(line, 10, float64(100*(i+1.0)))
 	}
 
-	dc.LoadFontFace("fonts/impact.ttf", 10)
+	dc.LoadFontFace("fonts/impact.ttf", 14)
+	dc.SetHexColor("#000") // Set the text colour.
 	dc.DrawString("Last update "+time.Now().Format(time.RFC822), 10, float64(dc.Height()-5))
 
 	dc.SavePNG("out.png")
