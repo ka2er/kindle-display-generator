@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/fogleman/gg"
 )
 
 // The data struct for the decoded data
@@ -78,4 +80,34 @@ func getQuote(aSymbol string, apiKey string) {
 
 	log.Printf("Ticker %s value is %.2f (%.1f PCT)", aSymbol, quote.Price, quote.Percent_change)
 
+	outputImage("$" + aSymbol + "=" + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)")
+
 }
+
+func outputImage(s string) {
+	dc := gg.NewContext(800, 600)
+	dc.LoadFontFace("fonts/impact.ttf", 80)
+
+	// We declare a Rectangle with a given Width and Height, starting in the (0, 0) pixel.
+	dc.DrawRectangle(0, 0, float64(dc.Width()), float64(dc.Height()))
+	dc.SetHexColor("#FFFFFF") // We select it's colour.
+	dc.Fill()                 // And fill the context with it.
+
+	// text
+
+	/*
+		err := loadFont(dc, fontname)
+		if err != nil {
+			return err
+		}
+	*/
+	c := "#777"
+	dc.SetHexColor(c) // Set the text colour.
+	dc.DrawString(s, 10, 100)
+
+	dc.SavePNG("out.png")
+}
+
+// generate PNG 800x600 landscape
+
+//

@@ -21,3 +21,5 @@
 go.work
 config.json
 main
+fetch.sh
+out.png
