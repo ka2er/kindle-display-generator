@@ -44,15 +44,19 @@ func main() {
 		log.Fatal("Error during Unmarshal(): ", err)
 	}
 
+	var tQuotes []string
+
 	// loop through symbols
 	for _, symbol := range config.Symbols {
 
 		log.Print("symbol is " + symbol)
-		getQuote(symbol, config.Apikey)
+		tQuotes = append(tQuotes, getQuote(symbol, config.Apikey))
 	}
+
+	outputImage(tQuotes)
 }
 
-func getQuote(aSymbol string, apiKey string) {
+func getQuote(aSymbol string, apiKey string) string {
 
 	url := "https://finnhub.io/api/v1/quote?symbol=" + aSymbol + "&token=" + apiKey
 
@@ -80,11 +84,10 @@ func getQuote(aSymbol string, apiKey string) {
 
 	log.Printf("Ticker %s value is %.2f (%.1f PCT)", aSymbol, quote.Price, quote.Percent_change)
 
-	outputImage("$" + aSymbol + "=" + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)")
-
+	return "$" + aSymbol + "=" + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)"
 }
 
-func outputImage(s string) {
+func outputImage(s []string) {
 	dc := gg.NewContext(800, 600)
 	dc.LoadFontFace("fonts/impact.ttf", 80)
 
@@ -94,7 +97,6 @@ func outputImage(s string) {
 	dc.Fill()                 // And fill the context with it.
 
 	// text
-
 	/*
 		err := loadFont(dc, fontname)
 		if err != nil {
@@ -103,7 +105,10 @@ func outputImage(s string) {
 	*/
 	c := "#777"
 	dc.SetHexColor(c) // Set the text colour.
-	dc.DrawString(s, 10, 100)
+
+	for i, line := range s {
+		dc.DrawString(line, 10, float64(100*(i+1.0)))
+	}
 
 	dc.SavePNG("out.png")
 }
