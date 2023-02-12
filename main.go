@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/fogleman/gg"
 )
@@ -60,6 +61,10 @@ func getQuote(aSymbol string, apiKey string) string {
 
 	url := "https://finnhub.io/api/v1/quote?symbol=" + aSymbol + "&token=" + apiKey
 
+	// little trick to hide exchange
+	tSymbol := strings.Split(aSymbol, ":")
+	aSymbol = tSymbol[len(tSymbol)-1]
+
 	// factorize
 	log.Print(url)
 
@@ -84,7 +89,7 @@ func getQuote(aSymbol string, apiKey string) string {
 
 	log.Printf("Ticker %s value is %.2f (%.1f PCT)", aSymbol, quote.Price, quote.Percent_change)
 
-	return "$" + aSymbol + "=" + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)"
+	return aSymbol + " " + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)"
 }
 
 func outputImage(s []string) {
@@ -112,7 +117,3 @@ func outputImage(s []string) {
 
 	dc.SavePNG("out.png")
 }
-
-// generate PNG 800x600 landscape
-
-//
