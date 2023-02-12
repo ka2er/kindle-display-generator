@@ -1,0 +1,8 @@
+{
+	"apikey": "<PASTE_HERE_YOUR_FINNHUB.IO_APIKEY>",
+	"symbols": [
+		"GME",
+		"BBBY",
+		"KRAKEN:WBTCEUR"
+	]
+}
