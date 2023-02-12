@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/fogleman/gg"
 )
@@ -114,6 +115,9 @@ func outputImage(s []string) {
 	for i, line := range s {
 		dc.DrawString(line, 10, float64(100*(i+1.0)))
 	}
+
+	dc.LoadFontFace("fonts/impact.ttf", 10)
+	dc.DrawString("Last update "+time.Now().Format(time.RFC822), 10, float64(dc.Height()-5))
 
 	dc.SavePNG("out.png")
 }
