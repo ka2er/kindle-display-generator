@@ -94,7 +94,7 @@ func getQuote(aSymbol string, apiKey string) string {
 }
 
 func outputImage(s []string) {
-	dc := gg.NewContext(800, 600)
+	dc := gg.NewContext(600, 800)
 	dc.LoadFontFace("fonts/impact.ttf", 80)
 
 	// We declare a Rectangle with a given Width and Height, starting in the (0, 0) pixel.
@@ -109,16 +109,17 @@ func outputImage(s []string) {
 			return err
 		}
 	*/
-	c := "#777"
-	dc.SetHexColor(c) // Set the text colour.
+	dc.SetHexColor("#000") // Set the text colour.
+
+	dc.Rotate(gg.Radians(90))
 
 	for i, line := range s {
-		dc.DrawString(line, 10, float64(100*(i+1.0)))
+		dc.DrawString(line, 10, -float64(100*(i+1.0)))
 	}
 
 	dc.LoadFontFace("fonts/impact.ttf", 14)
 	dc.SetHexColor("#000") // Set the text colour.
-	dc.DrawString("Last update "+time.Now().Format(time.RFC822), 10, float64(dc.Height()-5))
+	dc.DrawString("Last update "+time.Now().Format(time.RFC822), 10, -5)
 
 	dc.SavePNG("out.png")
 }
