@@ -4,5 +4,6 @@
 		"GME",
 		"BBBY",
 		"KRAKEN:WBTCEUR"
-	]
+	],
+	"output_path" : "/opt/outdir"
 }

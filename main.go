@@ -19,8 +19,9 @@ import (
 // The data struct for the decoded data
 // Notice that all fields must be exportable! ie start with uppercase !!!
 type Config struct {
-	Apikey  string
-	Symbols []string
+	Apikey      string
+	Symbols     []string
+	Output_path string
 }
 
 type Quote struct {
@@ -58,7 +59,7 @@ func main() {
 		tQuotes = append(tQuotes, getQuote(symbol, config.Apikey))
 	}
 
-	outputImage(tQuotes)
+	outputImage(tQuotes, config.Output_path)
 }
 
 func getQuote(aSymbol string, apiKey string) string {
@@ -96,7 +97,7 @@ func getQuote(aSymbol string, apiKey string) string {
 	return aSymbol + " " + fmt.Sprint(quote.Price) + "(" + fmt.Sprintf("%.2f", quote.Percent_change) + "%)"
 }
 
-func outputImage(s []string) {
+func outputImage(s []string, output_path string) {
 	dc := gg.NewContext(600, 800)
 	dc.LoadFontFace("fonts/impact.ttf", 80)
 
@@ -126,7 +127,7 @@ func outputImage(s []string) {
 	// copy pixels between RGBA img to blank 16b Grey image
 	draw.Draw(im2, im2.Bounds(), im, im.Bounds().Min, draw.Src)
 
-	f, err := os.Create("out.png")
+	f, err := os.Create(output_path + "/out.png")
 	if err != nil {
 		defer f.Close()
 		log.Fatal("Unable to create PNG file")
