@@ -110,6 +110,12 @@ func outputImage(s []string, output_path string) {
 	// rotate text drawing
 	dc.Rotate(gg.Radians(90))
 
+	dc.LoadFontFace("fonts/impact.ttf", 40)
+
+	now := time.Now()
+	dc.DrawString(now.Format("2/01/2006"), 600, -560)
+	dc.LoadFontFace("fonts/impact.ttf", 80)
+
 	// draw each line of text
 	for i, line := range s {
 		dc.DrawString(line, 10, -float64(100*(i+1.0)))
