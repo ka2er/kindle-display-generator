@@ -126,10 +126,16 @@ func outputImage(s []string) {
 	// copy pixels between RGBA img to blank 16b Grey image
 	draw.Draw(im2, im2.Bounds(), im, im.Bounds().Min, draw.Src)
 
-	f, _ := os.Create("out.png")
-	defer f.Close()
-	if err := png.Encode(f, im2); err != nil {
+	f, err := os.Create("out.png")
+	if err != nil {
+		defer f.Close()
+		log.Fatal("Unable to create PNG file")
+	}
 
+	if err := png.Encode(f, im2); err != nil {
+		defer f.Close()
+		log.Fatal("Unable to write image to PNG file")
 		// handle error @TODO
 	}
+	defer f.Close()
 }
