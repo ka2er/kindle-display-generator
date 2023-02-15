@@ -3,6 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/draw"
+	"image/png"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -99,27 +102,34 @@ func outputImage(s []string) {
 
 	// We declare a Rectangle with a given Width and Height, starting in the (0, 0) pixel.
 	dc.DrawRectangle(0, 0, float64(dc.Width()), float64(dc.Height()))
-	dc.SetHexColor("#FFFFFF") // We select it's colour.
-	dc.Fill()                 // And fill the context with it.
+	dc.SetHexColor("#fff") // We select it's colour.
+	dc.Fill()              // And fill the context with it.
 
-	// text
-	/*
-		err := loadFont(dc, fontname)
-		if err != nil {
-			return err
-		}
-	*/
 	dc.SetHexColor("#000") // Set the text colour.
-
+	// rotate text drawing
 	dc.Rotate(gg.Radians(90))
 
+	// draw each line of text
 	for i, line := range s {
 		dc.DrawString(line, 10, -float64(100*(i+1.0)))
 	}
 
 	dc.LoadFontFace("fonts/impact.ttf", 14)
-	dc.SetHexColor("#000") // Set the text colour.
+
+	// timestamp image
 	dc.DrawString("Last update "+time.Now().Format(time.RFC822), 10, -5)
 
-	dc.SavePNG("out.png")
+	// retrieve img we had computed
+	im := dc.Image()
+	// get a target image grey 16 bits
+	im2 := image.NewGray16(im.Bounds())
+	// copy pixels between RGBA img to blank 16b Grey image
+	draw.Draw(im2, im2.Bounds(), im, im.Bounds().Min, draw.Src)
+
+	f, _ := os.Create("out.png")
+	defer f.Close()
+	if err := png.Encode(f, im2); err != nil {
+
+		// handle error @TODO
+	}
 }
