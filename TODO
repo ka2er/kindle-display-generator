@@ -1,0 +1,2 @@
+- script to configure data server (nginx, font, go bin, cron job)
+- script to put on the kindle (curl, eips)
