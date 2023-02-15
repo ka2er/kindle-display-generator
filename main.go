@@ -121,8 +121,8 @@ func outputImage(s []string) {
 
 	// retrieve img we had computed
 	im := dc.Image()
-	// get a target image grey 16 bits
-	im2 := image.NewGray16(im.Bounds())
+	// get a target image grey 8 bits
+	im2 := image.NewGray(im.Bounds())
 	// copy pixels between RGBA img to blank 16b Grey image
 	draw.Draw(im2, im2.Bounds(), im, im.Bounds().Min, draw.Src)
 
