@@ -1,0 +1,31 @@
+---
+- hosts: server
+  tasks:
+    - name : Ensure package nginx is installed
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name : Ensure refresh binary is installed
+      ansible.builtin.copy:
+        src: ../main-linux
+        dest: /root/regen-png
+        mode: '0755'
+
+    - name : Ensure font file is present
+      ansible.builtin.copy:
+        src: ../fonts/impact.ttf
+        dest: /root/fonts/impact.ttf
+        mode: '0644'
+
+    - name : Ensure config file is present
+      ansible.builtin.copy:
+        src: ../config.json.template
+        dest: /root/config.json
+        mode: '0644'
+
+    - name : Ensure CRON job regenerate picture each 5 minutes
+      ansible.builtin.cron:
+        name: "refresh image"
+        minute: "5/*"
+        job: "/root/regen-png"

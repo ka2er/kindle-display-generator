@@ -1,0 +1,3 @@
+# don't store password in plain !
+kindle     ansible_connection=ssh    ansible_host=    ansible_user=root
+server     ansible_connection=ssh    ansible_host=    ansible_user=root

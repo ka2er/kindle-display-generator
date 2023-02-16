@@ -1,0 +1,16 @@
+---
+- hosts: kindle
+  gather_facts: true
+  tasks:
+    - name: mount system rw
+      ansible.builtin.raw: mntroot rw 
+    - name: Ensure refresh.sh is present on kindle
+      ansible.builtin.copy:
+        src: refresh.sh
+        dest: /mnt/us/refresh.sh
+        mode: '0755'
+    - name: Ensure a reload png job that runs every 5 minutes exists.
+      ansible.builtin.cron:
+        name: "refresh image"
+        minute: "5/*"
+        job: "/mnt/us/refresh.sh"

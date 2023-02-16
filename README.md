@@ -31,6 +31,16 @@ If you need to cross compile to a linux target system
 GOOS=linux GOARCH=amd64 go build -o main-linux main.go
 ````
 
+## Deploy
+
+You could file *inventory* file with IP of the server and the Kindle.
+Just check that you are able to ssh to them.
+Then you juste have to do a : 
+
+`````
+deploy.sh
+`````
+
 # Credits
 
 https://rentafounder.com/convert-image-to-grayscale-golang/
